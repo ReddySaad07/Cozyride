@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coziryde</title>
+
+    <style>
+      
+.ride-form {
+    display: none;
+    width: 320px;
+    max-width: calc(100% - 50px);
+    margin: 30px auto;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+}
+
+.ride-form input,
+.ride-form select,
+.ride-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+}
+
+.ride-form label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.ride-form h2 {
+    margin-bottom: 20px;
+}
+
+#rideResult {
+    overflow-wrap: anywhere;
+}
+
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding-top: 40px;
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient( #ff7e5f, #3b0066);
+            color: white;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .forms {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            margin: 35px auto;
+            padding: 0 15px;
+        }
+
+        .box {
+            width: 280px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #3b0066;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #57008f;
+        }
+
+        input {
+            background: white;
+            color:black;
+        }
+
+        #message, #loginMessage {
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        #home {
+            display: none;
+            margin: 35px auto;
+        }
+
+        @media (max-width: 650px) {
+            .forms {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .box {
+                width: 280px;
+                max-width: calc(100% - 40px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>coziryde</h1>
+    <p>ride together, go further</p>
+
+    <!-- Signup and Login Forms -->
+    <div class="forms" id="authSection">
+
+        <div class="box">
+            <h2>Sign up</h2>
+
+            <form id="signupForm">
+                <input id="name" type="text"
+                       placeholder="Full name" required>
+
+                <input id="email" type="email"
+                       placeholder="Email" required>
+
+                <input id="password" type="password"
+                       placeholder="Password (min 8 characters)"
+                       minlength="8" required>
+
+                <button type="submit">Sign up</button>
+            </form>
+
+            <p id="message"></p>
+        </div>
+
+        <div class="box">
+            <h2>Log in</h2>
+
+            <form id="loginForm">
+                <input id="loginEmail" type="email"
+                       placeholder="Email" required>
+
+                <input id="loginPassword" type="password"
+                       placeholder="Password" required>
+
+                <button type="submit">Log in</button>
+            </form>
+
+            <p id="loginMessage"></p>
+        </div>
+
+    </div>
+
+
+   
+<!-- Main home screen -->
+<div class="box" id="home" style="display:none;">
+
+    <h2>Welcome to Coziryde!</h2>
+    <p>Travel together, go further.</p>
+
+    <button onclick="showRider()">Be a Rider</button>
+
+    <button onclick="showProvider()">Provide a Ride</button>
+
+    <button onclick="logout()">Log out</button>
+
+</div>
+
+
+<!-- Rider Form -->
+<div class="ride-form" id="riderForm">
+
+    <h2>Find a Ride</h2>
+
+    <form id="findRideForm">
+
+        <label>From</label>
+        <input type="text" id="riderFrom"
+               placeholder="Starting location" required>
+
+        <label>To</label>
+        <input type="text" id="riderTo"
+               placeholder="Destination" required>
+
+        <label>Travel Date</label>
+        <input type="date" id="riderDate" required>
+
+        <label>Number of Passengers</label>
+        <input type="number" id="members"
+               min="1" max="20" value="1" required>
+
+        <label>Preferred Time</label>
+        <select id="riderTime" required>
+            <option value="">Select time range</option>
+            <option>12 AM - 6 AM</option>
+            <option>6 AM - 12 PM</option>
+            <option>12 PM - 6 PM</option>
+            <option>6 PM - 12 AM</option>
+        </select>
+
+        <button type="submit">Search Ride</button>
+
+        <button type="button" onclick="goHome()">Back</button>
+
+    </form>
+
+    <p id="rideResult"></p>
+
+</div>
+
+
+<!-- Provider Form -->
+<div class="ride-form" id="providerForm">
+
+    <h2>Provide a Ride</h2>
+
+    <form id="provideRideForm">
+
+        <label>From</label>
+        <input type="text" id="providerFrom"
+               placeholder="Starting location" required>
+
+        <label>To</label>
+        <input type="text" id="providerTo"
+               placeholder="Destination" required>
+
+        <label>Travel Date</label>
+        <input type="date" id="providerDate" required>
+
+        <label>Car Name / Model</label>
+        <input type="text" id="carName"
+               placeholder="e.g. Swift, Honda City" required>
+
+        <label>Total Passenger Capacity</label>
+        <input type="number" id="capacity"
+               min="1" max="20" required>
+
+        <label>Available Seats for Riders</label>
+        <input type="number" id="seats"
+               min="1" max="20" required>
+
+        <label>Departure Time</label>
+        <input type="time" id="startTime" required>
+
+        <label>Expected Arrival Time</label>
+        <input type="time" id="endTime" required>
+
+        
+
+        <button type="submit">Offer Ride</button>
+
+        <button type="button" onclick="goHome()">Back</button>
+
+    </form>
+
+    <p id="providerResult"></p>
+
+
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
